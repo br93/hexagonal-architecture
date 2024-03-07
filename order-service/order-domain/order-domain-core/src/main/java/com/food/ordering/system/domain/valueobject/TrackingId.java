@@ -1,8 +1,6 @@
-package com.food.ordering.system.valueobject;
+package com.food.ordering.system.domain.valueobject;
 
 import java.util.UUID;
-
-import com.food.ordering.system.domain.valueobject.BaseId;
 
 public class TrackingId extends BaseId<UUID>{
 

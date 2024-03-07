@@ -1,5 +1,7 @@
 package com.food.ordering.system.domain.entity;
 
+import java.util.UUID;
+
 public abstract class BaseEntity<T> {
 
     private T id;
@@ -10,6 +12,10 @@ public abstract class BaseEntity<T> {
 
     public void setId(T id){
         this.id = id;
+    }
+
+    public UUID newUUID(){
+        return UUID.randomUUID();
     }
 
     @Override
