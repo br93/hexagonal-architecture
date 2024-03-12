@@ -9,7 +9,7 @@ public class Money {
 
     public static final Money ZERO = new Money(BigDecimal.ZERO);
 
-    protected Money(BigDecimal amount){
+    public Money(BigDecimal amount){
         this.amount = amount;
     }
 
