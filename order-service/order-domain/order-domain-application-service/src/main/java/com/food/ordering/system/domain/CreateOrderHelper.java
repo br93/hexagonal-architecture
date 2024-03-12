@@ -1,5 +1,6 @@
 package com.food.ordering.system.domain;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.food.ordering.system.domain.dto.create.CreateOrderRequest;
+import com.food.ordering.system.domain.dto.create.OrderItemRequest;
 import com.food.ordering.system.domain.entity.Customer;
 import com.food.ordering.system.domain.entity.Order;
 import com.food.ordering.system.domain.entity.Restaurant;
@@ -41,10 +43,14 @@ public class CreateOrderHelper {
     }
 
     @Transactional
-    public OrderCreatedEvent persistOrder(CreateOrderRequest request){
+    public OrderCreatedEvent persistOrder(CreateOrderRequest request) {
 
-        checkCustomer(request.customerId());
+        this.checkCustomer(request.customerId());
         Restaurant restaurant = checkRestaurant(request.restaurantId());
+
+        this.checkProducts(request.items(), restaurant);
+
+        request.items().forEach(x -> x.productId());
         Order order = this.orderMapper.toOrder(request);
 
         OrderCreatedEvent orderCreatedEvent = this.orderDomainService.validateAndInitiateOrder(order, restaurant);
@@ -52,6 +58,20 @@ public class CreateOrderHelper {
 
         return orderCreatedEvent;
 
+    }
+
+    private void checkProducts(List<OrderItemRequest> items, Restaurant restaurant) {
+
+        List<UUID> productsIds = items.stream().map(OrderItemRequest::productId).toList();
+        List<UUID> productsRestaurant = restaurant.getProducts().stream().map(product -> product.getId().getValue())
+                .toList();
+
+        productsIds.forEach(id -> {
+            if (!productsRestaurant.contains(id))
+                throw new DomainException(
+                        "Product with id " + id + " not found in restaurant " + restaurant.getId().getValue());
+
+        });
     }
 
     private void checkCustomer(UUID customerId) {
