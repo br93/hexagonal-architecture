@@ -35,7 +35,7 @@ public class OrderMapper {
     }
 
     public CreateOrderResponse toCreateOrderResponse(Order order) {
-        return new CreateOrderResponse(order.getTrackingId().getValue(), order.getOrderStatus(), "Success");
+        return new CreateOrderResponse(order.getTrackingId().getValue(), order.getOrderStatus(), "success");
     }
 
     public TrackOrderResponse toTrackOrderResponse(Order order) {
@@ -51,7 +51,9 @@ public class OrderMapper {
     private OrderItem toOrderItem(OrderItemRequest orderItemRequest, Long id) {
 
         return OrderItem.builder().id(new OrderItemId(id)).price(new Money(orderItemRequest.price()))
-                .product(new Product(new ProductId(orderItemRequest.productId()))).quantity(orderItemRequest.quantity())
+                .product(new Product(new ProductId(orderItemRequest.productId()), null,
+                        new Money(orderItemRequest.price())))
+                .quantity(orderItemRequest.quantity())
                 .subtotal(new Money(orderItemRequest.subtotal())).build();
     }
 
