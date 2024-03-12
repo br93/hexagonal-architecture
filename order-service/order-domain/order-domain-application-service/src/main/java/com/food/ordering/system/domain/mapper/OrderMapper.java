@@ -10,6 +10,7 @@ import com.food.ordering.system.domain.dto.create.CreateOrderRequest;
 import com.food.ordering.system.domain.dto.create.CreateOrderResponse;
 import com.food.ordering.system.domain.dto.create.OrderAddress;
 import com.food.ordering.system.domain.dto.create.OrderItemRequest;
+import com.food.ordering.system.domain.dto.track.TrackOrderResponse;
 import com.food.ordering.system.domain.entity.Order;
 import com.food.ordering.system.domain.entity.OrderItem;
 import com.food.ordering.system.domain.entity.Product;
@@ -33,8 +34,13 @@ public class OrderMapper {
                 .build();
     }
 
-    public CreateOrderResponse toCreateOrderResponse(Order order){
+    public CreateOrderResponse toCreateOrderResponse(Order order) {
         return new CreateOrderResponse(order.getTrackingId().getValue(), order.getOrderStatus(), null);
+    }
+
+    public TrackOrderResponse toTrackOrderResponse(Order order) {
+        return new TrackOrderResponse(order.getTrackingId().getValue(), order.getOrderStatus(),
+                order.getFailureMessages());
     }
 
     private StreetAddress toStreetAddress(OrderAddress orderAddress) {
