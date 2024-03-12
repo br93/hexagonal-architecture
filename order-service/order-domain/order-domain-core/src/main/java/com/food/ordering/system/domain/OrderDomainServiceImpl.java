@@ -2,6 +2,7 @@ package com.food.ordering.system.domain;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import com.food.ordering.system.domain.entity.Order;
@@ -66,8 +67,11 @@ public class OrderDomainServiceImpl implements OrderDomainService {
     }
 
     private void validateProduct(OrderItem orderItem, List<Product> product) {
-        if (!product.contains(orderItem.getProduct()))
-            throw new DomainException("Product " + orderItem.getProduct().getName() + "from OrderItem "
+
+        List<UUID> products = product.stream().map(x -> x.getId().getValue()).toList();
+
+        if (!products.contains(orderItem.getProduct().getId().getValue()))
+            throw new DomainException("Product " + orderItem.getProduct().getId().getValue() + "from OrderItem "
                     + orderItem.getId().getValue() + "and Order " + orderItem.getOrderId().getValue() + " is invalid");
     }
 
