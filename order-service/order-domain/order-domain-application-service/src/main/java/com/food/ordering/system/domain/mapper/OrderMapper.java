@@ -35,7 +35,7 @@ public class OrderMapper {
     }
 
     public CreateOrderResponse toCreateOrderResponse(Order order) {
-        return new CreateOrderResponse(order.getTrackingId().getValue(), order.getOrderStatus(), null);
+        return new CreateOrderResponse(order.getTrackingId().getValue(), order.getOrderStatus(), "Success");
     }
 
     public TrackOrderResponse toTrackOrderResponse(Order order) {
