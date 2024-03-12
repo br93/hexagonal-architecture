@@ -1,5 +1,8 @@
 package com.food.ordering.system.domain;
 
+import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
+
 import com.food.ordering.system.domain.dto.create.CreateOrderRequest;
 import com.food.ordering.system.domain.dto.create.CreateOrderResponse;
 import com.food.ordering.system.domain.dto.track.TrackOrderRequest;
@@ -8,6 +11,8 @@ import com.food.ordering.system.domain.ports.input.service.OrderDomainApplicatio
 
 import jakarta.validation.Valid;
 
+@Validated
+@Service
 class OrderDomainApplicationServiceImpl implements OrderDomainApplicationService{
 
     private final CreateOrderHandler createOrderHandler;
