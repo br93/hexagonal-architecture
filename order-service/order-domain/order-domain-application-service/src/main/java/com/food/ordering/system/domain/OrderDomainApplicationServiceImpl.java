@@ -10,16 +10,25 @@ import jakarta.validation.Valid;
 
 class OrderDomainApplicationServiceImpl implements OrderDomainApplicationService{
 
+    private final CreateOrderHandler createOrderHandler;
+    private final TrackOrderHandler trackOrderHandler;
+
+    
+
+    public OrderDomainApplicationServiceImpl(CreateOrderHandler createOrderHandler,
+            TrackOrderHandler trackOrderHandler) {
+        this.createOrderHandler = createOrderHandler;
+        this.trackOrderHandler = trackOrderHandler;
+    }
+
     @Override
     public CreateOrderResponse createOrder(@Valid CreateOrderRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createOrder'");
+       return this.createOrderHandler.createOrder(request);
     }
 
     @Override
     public TrackOrderResponse trackOrder(@Valid TrackOrderRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'trackOrder'");
+        return this.trackOrderHandler.trackOrder(request);
     }
     
 }
